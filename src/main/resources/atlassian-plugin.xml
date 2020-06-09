@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2"> 
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/pluginIcon.png</param>  
+    <param name="plugin-logo">images/pluginLogo.png</param> 
+  </plugin-info>  
+  <!-- add our i18n resource -->  
+  <resource type="i18n" name="i18n" location="KTMMacro"/>  
+  <!-- add our web resources
+  <web-resource key="KTMMacro-resources" name="KTMMacro Web Resources"> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>  
+    <resource type="download" name="KTMMacro.css" location="/css/KTMMacro.css"/>  
+    <resource type="download" name="KTMMacro.js" location="/js/KTMMacro.js"/>  
+    <resource type="download" name="images/" location="/images"/>  
+    <context>KTMMacro</context> 
+  </web-resource>
+  -->
+
+  <web-resource key="ktmMacroParameters" name="Add KTM Macro parameters">
+    <resource type="download" name="ktmMacroParameters.js" location="js/ktmMacroParameters.js"/>
+    <dependency>confluence.editor.actions:editor-macro-browser</dependency>
+    <context>macro-browser</context>
+  </web-resource>
+
+  <xhtml-macro name="Knowledge text mapper macro" class="com.confluence.ktmMacro.macro.KTMMacro" key="ktmMacro">
+    <description key="ktmMacro.macro.desc"/>
+    <category name="formatting"/>
+    <parameters>
+
+      <parameter name="Scope" type="enum" />
+
+      <parameter name="Difficulty" type="enum" />
+
+      <parameter name="Labels" type="string"/>
+
+      <parameter name="labelSelector" type="string"/>
+
+    </parameters>
+  </xhtml-macro>
+
+  <servlet name="KTM Home Servlet" i18n-name-key="ktm-home-servlet.name" key="ktm-home-servlet" class="com.confluence.ktmMacro.servlet.KTMHomeServlet"> 
+    <description key="ktm-home-servlet.description">The KTM Home Servlet Plugin</description>  
+    <url-pattern>/ktm-home</url-pattern> 
+  </servlet>
+
+  <ao key="ao-module"> 
+    <description>The module configuring the Active Objects service used by this plugin</description>  
+    <entity>com.confluence.ktmMacro.models.DifficultyLevel</entity>  
+    <entity>com.confluence.ktmMacro.models.Label</entity>  
+    <entity>com.confluence.ktmMacro.models.Scope</entity> 
+  </ao>
+
+  <rest name="KTM Rest Resource" i18n-name-key="ktm-rest-resource.name" key="ktm-rest-resource" path="/ktm-rest" version="1.0"> 
+    <description key="ktm-rest-resource.description">The KTM Rest Resource Plugin</description> 
+  </rest>
+
+  <web-item key="ktmMacroHome" section="system.header/left" weight="60">
+    <description>Link to KTMMacro Home</description>
+    <label key="item.ktmMacro.home.label"/>
+    <link linkId="testPluginHome">/plugins/servlet/ktm-home</link>
+  </web-item>
+
+</atlassian-plugin>
